@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Kino;
 
-public class PlayerController : MonoBehaviour{
+public class PlayerController : BasicUnit{
 
     public float speed;
     public float forceBlink;
@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour{
     public GameObject swordDamageOut;
     public GameObject SwordTrailRenderer;
 
-    private Animator anim;
     private Rigidbody rb;
     private CapsuleCollider cc;
 
@@ -53,16 +52,10 @@ public class PlayerController : MonoBehaviour{
 
     public State state;
 
-    void Start()
-    {
-
-    }
-
     private void Awake()
     {
         TerrainMask = LayerMask.GetMask("Terrain");
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
         cc = GetComponent<CapsuleCollider>();
         analogGlitch = GameObject.Find("CameraPlayer").GetComponent<AnalogGlitch>();
     }
@@ -141,14 +134,13 @@ public class PlayerController : MonoBehaviour{
         }
     }
 
-    public void Die()
+    public override void Die()
     {
         state = PlayerController.State.DIE;
-        anim.SetTrigger("Die");
-        Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length +1);
+        base.Die();
     }
 
-    public void Damaded()
+    public override void Damaged()
     {
         StartCoroutine(DamadedAnim());
     }

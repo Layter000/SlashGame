@@ -8,11 +8,11 @@ using System;
 
 
 //}
-public class basicAI : MonoBehaviour
+
+public class basicAI : BasicUnit
 {
     private UnityEngine.AI.NavMeshAgent agent;
     private Rigidbody rb;
-    private Animator anim;
 
     public enum State
     {
@@ -53,12 +53,11 @@ public class basicAI : MonoBehaviour
 
     float timeTest = 0f;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
-        anim = GetComponent<Animator>();
 
         agent.updatePosition = true;
         agent.updateRotation = false;
@@ -94,17 +93,16 @@ public class basicAI : MonoBehaviour
         
     }
 
-    public void Damaded()
+    public override void Damaged()
     {
         state = basicAI.State.DAMADED;
         StartCoroutine(DamadedAnim());
     }
 
-    public void Die()
+    public override void Die()
     { 
-        anim.SetTrigger("Die");
         alive = false;
-        Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length + 1);
+        base.Die();
     }
 
     IEnumerator DamadedAnim()

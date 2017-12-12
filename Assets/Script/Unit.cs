@@ -12,19 +12,10 @@ public class Unit : MonoBehaviour {
     private Animator anim;
     private AudioSource playerAudio;
 
-    private PlayerController playerController;
-    private basicAI basicAi;
+    private BasicUnit basicUnit;
 
 
     private bool isDead = false;
-
-    public enum Belonging
-    {
-        PLAYER,
-        ENEMY
-    }
-
-    public Belonging belonging;
 
     void Awake()
     {
@@ -33,17 +24,7 @@ public class Unit : MonoBehaviour {
 
         currentHealth = startingHealth;
 
-        if (gameObject.tag == "Player")
-        {
-            belonging = Unit.Belonging.PLAYER;
-            playerController = GetComponent<PlayerController>();
-        }
-        else
-        {
-            basicAi = GetComponent<basicAI>();
-            belonging = Unit.Belonging.ENEMY;
-        }
-        
+        basicUnit = GetComponent<BasicUnit>();
     }
 
     public void TakeDamage(float amount)
@@ -54,28 +35,16 @@ public class Unit : MonoBehaviour {
         {
             Death();
         }
-        else if (belonging == Unit.Belonging.PLAYER)
+        else
         {
-            playerController.Damaded();
-            healthSlider.value -= amount / startingHealth;
-        }
-        else if (belonging == Unit.Belonging.ENEMY)
-        {
-
-            basicAi.Damaded();
+            basicUnit.Damaged();
+            if (basicUnit is PlayerController)
+                healthSlider.value -= amount / startingHealth;
         }
     }
 
     void Death()
     {
-        if (belonging == Unit.Belonging.PLAYER)
-        {
-            playerController.Die();
-            
-        }
-        else
-        {
-            basicAi.Die();
-        }
+        basicUnit.Die();
     }
 }
