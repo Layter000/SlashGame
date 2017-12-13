@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StayAI : MonoBehaviour {
+public class StayAI : BasicUnit
+{
 
     private bool alive = true;
 
@@ -16,7 +17,6 @@ public class StayAI : MonoBehaviour {
     }
 
     private Rigidbody rb;
-    private Animator anim;
 
     public Transform spawnBulet;
     public GameObject bulet;
@@ -26,12 +26,10 @@ public class StayAI : MonoBehaviour {
     public State state;
 
     // Use this for initialization
-    void Start () {
-
-
-        anim = GetComponent<Animator>();
+    void Awake() {
+        //anim.SetTrigger("Attack");
         StartCoroutine(FSM());
-	}
+    }
 	
     IEnumerator FSM()
     {
@@ -82,6 +80,7 @@ public class StayAI : MonoBehaviour {
     }
     IEnumerator DamadedAnim()
     {
+        StopCoroutine(Attack());
         cooldownAttack = true;
         anim.SetTrigger("Damaded");
         yield return new WaitForEndOfFrame();

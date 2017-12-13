@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-//namespace UnityStandardAssets.Characters.ThirdPerson
-//{
-
-
-//}
-
 public class basicAI : BasicUnit
 {
     private UnityEngine.AI.NavMeshAgent agent;

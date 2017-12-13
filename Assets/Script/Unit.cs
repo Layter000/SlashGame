@@ -39,7 +39,9 @@ public class Unit : MonoBehaviour {
         {
             basicUnit.Damaged();
             if (basicUnit is PlayerController)
+            {
                 healthSlider.value -= amount / startingHealth;
+            }
         }
     }
 
